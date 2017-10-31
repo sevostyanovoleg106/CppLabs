@@ -7,7 +7,7 @@
 
 using namespace std;
  
-bool del(int *ar; int &kol; int nm)
+bool del( int &kol; int nm; int *ar)
 {
 	for (int nm = 1; nm < kol - 1; nm + 2)
 	{
@@ -25,15 +25,29 @@ bool del(int *ar; int &kol; int nm)
 	}
 }
  
-bool ser()
-{
-
+bool ser(int &kol; int x; int *ar)
+{  
+	int t;
+	for (int x = 0; x < kol ; x++)
+	{
+		if (ar[x] > ar[x + 1])
+			t = x;
+			break;
+	}
+	kol++;
+	for (int x = kol; x != kol/2 ; x--)
+	{
+		ar[x] = ar[x + 1];
+	}
+	ar[kol / 2] = ar[t];
  }
+
  
 int main()
 { 
 	int n;
 	cin >> n;
+	int *a = new int[n];
 	for (int i = 0; i < n; i++)
 	{
 		cin >> a[i];
@@ -43,8 +57,12 @@ int main()
 	{
 		if (a[i] < a[i + 1])
 			k++;
-		if (k==n) 
-			
+		{
+			if (k == n)
+				del(i; n; a);
+			else
+				ser(n; i; a);
+		}
 	}
 	return 0;
 }
