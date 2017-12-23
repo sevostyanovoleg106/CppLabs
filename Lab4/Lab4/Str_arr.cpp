@@ -17,10 +17,10 @@
 #include <iostream>
 using namespace std;
 
-struct student {
+struct Student {
 	char* name = new char[128];
 	char* surName = new char[128];
-	char* middleName = new char[128];
+	char* patronymic = new char[128];
 	int grade[5];
 	int number;
 	double sr = 0;
@@ -29,7 +29,7 @@ struct student {
 int main()
 {
 	setlocale(0, "");
-	student *sts = new student[10];
+	Student *sts = new Student[10];
 	long int i = 0;
 
 	char a[10];
@@ -39,7 +39,7 @@ int main()
 	for (int i = 0; i<n; i++)
 	{
 		cout << "Введите ФИО студента № "<< i+1 << endl;
-		cin >> sts[i].name >> sts[i].surName >> sts[i].middleName;
+		cin >> sts[i].name >> sts[i].surName >> sts[i].patronymic;
 		cout << "Введите группу студента № " << i + 1 << endl;
 		cin >> sts[i].number;
 		for (int j = 0; j < 5; j++) 
@@ -65,7 +65,7 @@ int main()
 		if (sts[i].sr > 4)
 		{
 			isCheck = 1;
-			cout << sts[i].name << " " << sts[i].surName << " " << sts[i].middleName << " " << sts[i].number << " ";
+			cout << sts[i].name << " " << sts[i].surName << " " << sts[i].patronymic << " " << sts[i].number << " ";
 			for (int j = 0; j < 5; j++)
 				cout << sts[i].grade[j] << " ";
 			cout << endl;

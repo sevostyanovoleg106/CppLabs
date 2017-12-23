@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Str_arr.cpp" />
     <ClCompile Include="Str_list.cpp" />
   </ItemGroup>
