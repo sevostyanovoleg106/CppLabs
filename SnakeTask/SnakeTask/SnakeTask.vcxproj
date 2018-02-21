@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{BBE45233-7656-43C2-A412-FD38747EF925}</ProjectGuid>
+    <ProjectGuid>{11AA9EDF-A5C0-4A6E-A945-CB7C123340DD}</ProjectGuid>
     <RootNamespace>SnakeTask</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -115,6 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="Snake2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="INPUT.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
