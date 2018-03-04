@@ -4,7 +4,8 @@
 using namespace std;
 bool gameOver;
 int x, y, bonusX, bonusY, score, width = 20, height = 20;
-
+char **feild [1000][1000];
+int prevXY = feild[0][0];
  void start()
 {
 	gameOver = false;
@@ -36,18 +37,8 @@ int x, y, bonusX, bonusY, score, width = 20, height = 20;
 	
 }
 
- void botton()
- {
-	 char c = getch();
-	
-	 switch (ñ)
-	 {
-	 case 72:
 
-		 break;
-	 }
- }
- void drawSnake()
+ void drawSnake(char** field)
  {
 	 for (int j = 0; j < height; j++)
 	 {
@@ -58,19 +49,16 @@ int x, y, bonusX, bonusY, score, width = 20, height = 20;
 				 field[j][f] = '0';
 			 if (j == bonusY && f == bonusX)
 				 field[j][f] = 'B';
+			 
 		 }
 	 }
 	
  }
 
- void drawField()
+ void drawField(char** field)
  {
  	system("cls");
- 	char** field = new char*[height];
- 	for (int i = 0; i < height; i++)
- 	{
- 		field[i] = new char[width];
- 	}
+ 	
  	for (int j = 0; j < height; j++)
  	{
  		for (int f = 0; f < width; f++)
@@ -106,11 +94,20 @@ int x, y, bonusX, bonusY, score, width = 20, height = 20;
  
  
  }
+ void game()
+ {
+
+ }
  
 int main()
 {
+	char** field = new char*[height];
+	for (int i = 0; i < height; i++)
+	{
+		field[i] = new char[width];
+	}
 	start();
-	drawField();
+	drawField(field);
 	system("pause");
 	return 0;
 }
