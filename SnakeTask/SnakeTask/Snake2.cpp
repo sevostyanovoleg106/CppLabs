@@ -1,18 +1,22 @@
 #include <iostream>
 #include <conio.h>
- 
+#include <ctime>
+#include <windows.h>
 using namespace std;
 bool gameOver;
 int x, y, bonusX, bonusY, score, width = 20, height = 20;
 char **feild [1000][1000];
-int prevXY = feild[0][0];
+enum Ñontrol
+{STOP = 0, LEFT, RIGHT, UP, DOWN};
+Ñontrol cont; 
  void start()
 {
+	 srand(time(0));
 	gameOver = false;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
-	bonusX = rand() % width;
-	bonusY = rand() % height;
+	bonusX = 1 + rand() % (width - 1);
+	bonusY = 1 + rand() % (height - 1);
 	score = 0;
 	int size;
 		cout << "Select a card size: " << endl;
@@ -94,6 +98,62 @@ int prevXY = feild[0][0];
  
  
  }
+ void buttons()
+ {
+ 	if (_kbhit())
+ 	{
+ 		switch (_getch())
+ 		{
+ 		case 'a':
+ 			cont = LEFT;
+ 			break;
+ 		case 's':
+ 			cont = DOWN;
+ 			break;
+ 		case 'w':
+ 			cont = UP;
+ 			break;
+ 		case 'd':
+ 			cont = RIGHT;
+ 			break;
+ 		case 'r':
+ 			gameOver = true;
+ 			break;
+ 		}
+ 	}
+ }
+ void gotoXY(int column, int line)
+ {
+	 COORD coord;
+	 coord.X = column;
+	 coord.Y = line;
+	 SetConsoleCursorPosition(
+		 GetStdHandle(STD_OUTPUT_HANDLE),
+		 coord
+	 );
+ }
+ void moveSnake(int j, int i)
+ {
+	 gotoXY(j, i);
+	 switch (cont)
+		 	{
+		 	case LEFT:
+				putch(' ');
+				gotoXY(j + 1, i);
+				putch('0');
+		 		break;
+		 	case RIGHT:
+		 		x++;
+		 		break;
+		 	case UP: 
+		 		y--;
+		 		break;
+		 	case DOWN:
+		 		y++;
+		 		break;
+		 	
+		 	}
+ }
  void game()
  {
 
@@ -108,6 +168,7 @@ int main()
 	}
 	start();
 	drawField(field);
+	moveSnake();
 	system("pause");
 	return 0;
 }
