@@ -116,7 +116,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Snake.cpp" />
-    <ClCompile Include="Snake2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="INPUT.txt" />
