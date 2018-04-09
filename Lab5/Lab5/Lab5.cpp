@@ -147,6 +147,10 @@ public:
 			break;
 		}
 	}
+	void turn()
+	{
+		
+	}
 	void output()
 	{
 		cout << "Координаты центра: " << x << " " << y << " " << "Сторона: " << sideLength << endl;
