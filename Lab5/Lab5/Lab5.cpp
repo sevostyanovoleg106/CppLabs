@@ -158,12 +158,6 @@ public:
 	}
 	void turn()
 	{
-		/*x1 = (x - cos(cos((sideLength / 2)/ halfDiagonal) - trn) * halfDiagonal)*(-1);
-		y1 = (y - sin(cos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
-		x2 = (x - cos(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
-		y2 = (y - sin(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);*/
-		/*cout.precision(3);*/
-		
 		cin >> trn;
 		trn = PI*trn/180;
 		cout << trn << endl;
@@ -171,21 +165,21 @@ public:
 		y1 = y + (y1 - y) * cos(trn) + (x1 - x) * sin(trn);
 		x2 = x + (x2 - x) * cos(trn) - (y2 - y) * sin(trn);
 		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
+
 		
-		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
-		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
-	/*	cout << "Координаты левого верхнего угла: " << floor(x1 + 0.555) << ", " << floor(y1 + 0.555) << endl;
-		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.555) << ", " << floor(y2 + 0.555) << endl;*/
+		cout << "Координаты левого верхнего угла: " << floor(x1 + 0.55555) << ", " << floor(y1 + 0.55555) << endl;
+		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.55555) << ", " << floor(y2 + 0.55555) << endl;
 		trn = 0;
 	}
 	void output()
 	{
 		cout << "Координаты центра: " << x << " " << y << " " << "Сторона: " << sideLength << endl;
+
 	}
 };
 class rectangle : public Figur
 {
-	double x, y, dx, dy, height, width, dheight, dwidth, dperimeter, x1, x2, y1, y2, PI = 3.1415926535,trn;
+	double x, y, dx, dy, height, width, dheight, dwidth, dperimeter, x1, x2, y1, y2, PI = 3.1415926535, trn, halfDiagonal;
 public:
 	void create()
 	{
@@ -204,6 +198,7 @@ public:
 		x2 = x + width / 2;
 		y1 = y + height / 2;
 		y2 = y - height / 2;
+		halfDiagonal = sqrt(pow(width / 2, 2) + pow(height / 2, 2));
 		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
 		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
 	}
@@ -350,24 +345,24 @@ public:
 	}
 	void turn()
 	{
-		/*x1 = (x - cos(cos((sideLength / 2)/ halfDiagonal) - trn) * halfDiagonal)*(-1);
-		y1 = (y - sin(cos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
-		x2 = (x - cos(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
-		y2 = (y - sin(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);*/
+		
 		/*cout.precision(3);*/
 
 		cin >> trn;
 		trn = PI * trn / 180;
 		cout << trn << endl;
-		x1 = x + (x1 - x) * cos(trn) - (y1 - y) * sin(trn);
+		/*x1 = x + (x1 - x) * cos(trn) - (y1 - y) * sin(trn);
 		y1 = y + (y1 - y) * cos(trn) + (x1 - x) * sin(trn);
 		x2 = x + (x2 - x) * cos(trn) - (y2 - y) * sin(trn);
 		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
+															*/
+		x1 = (x - cos((width / 2) / halfDiagonal - trn) * halfDiagonal);
+		y1 = (y - sin((width / 2) / halfDiagonal - trn) * halfDiagonal);
+		x2 = (x - cos(cos((width / 2) / halfDiagonal) - trn) * halfDiagonal);
+		y2 = (y - sin(cos((width / 2) / halfDiagonal) - trn) * halfDiagonal);
 
-		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
-		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
-		/*	cout << "Координаты левого верхнего угла: " << floor(x1 + 0.555) << ", " << floor(y1 + 0.555) << endl;
-		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.555) << ", " << floor(y2 + 0.555) << endl;*/
+		cout << "Координаты левого верхнего угла: " << floor(x1 + 0.55555) << ", " << floor(y1 + 0.55555) << endl;
+		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.55555) << ", " << floor(y2 + 0.55555) << endl;
 		trn = 0;
 	}
 	void output()
