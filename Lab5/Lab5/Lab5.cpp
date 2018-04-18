@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -10,12 +11,12 @@ public:
 	virtual void output() {}
 	virtual void turn() {}
 
-protected:
-	int x, y, radius, dx, dy, dradius;
+//protected:
+//	double x, y, radius, dx, dy, dradius;
 };
 class circle : public Figur
 {
-	int x, y, radius, dx, dy, dradius, trn;
+	double x, y, radius, dx, dy, dradius, trn;
 public:
 	void create()
 	{
@@ -87,7 +88,7 @@ public:
 };
 class square : public Figur
 {
-	int x, y, dx, dy, sideLength, dsideLength;
+	double x, y, dx, dy, sideLength, dsideLength, trn, x1, x2, y1, y2, halfDiagonal, PI= 3.1415926535;
 public:
 	void create()
 	{
@@ -99,6 +100,14 @@ public:
 		cout << "Введите значение стороны" << endl;
 		cout << "Размер: ";
 		cin >> sideLength;
+		halfDiagonal = sqrt((sideLength / 2)*(sideLength / 2) * 2);
+		x1 = x - sideLength / 2;
+		y1 = y + sideLength / 2;
+		x2 = x + sideLength / 2;
+		y2 = y - sideLength / 2;
+		cout.precision(3);
+		cout << "Координаты левого верхнего угла: " << x1  << ", " << y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2  << ", " << y2 << endl;
 	}
 	void move()
 	{
@@ -149,7 +158,25 @@ public:
 	}
 	void turn()
 	{
+		/*x1 = (x - cos(cos((sideLength / 2)/ halfDiagonal) - trn) * halfDiagonal)*(-1);
+		y1 = (y - sin(cos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
+		x2 = (x - cos(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
+		y2 = (y - sin(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);*/
+		/*cout.precision(3);*/
 		
+		cin >> trn;
+		trn = PI*trn/180;
+		cout << trn << endl;
+		x1 = x + (x1 - x) * cos(trn) - (y1 - y) * sin(trn);
+		y1 = y + (y1 - y) * cos(trn) + (x1 - x) * sin(trn);
+		x2 = x + (x2 - x) * cos(trn) - (y2 - y) * sin(trn);
+		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
+		
+		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
+	/*	cout << "Координаты левого верхнего угла: " << floor(x1 + 0.555) << ", " << floor(y1 + 0.555) << endl;
+		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.555) << ", " << floor(y2 + 0.555) << endl;*/
+		trn = 0;
 	}
 	void output()
 	{
@@ -158,7 +185,7 @@ public:
 };
 class rectangle : public Figur
 {
-	int x, y, dx, dy, height, width, dheight, dwidth, dperimeter, x1, x2, y1, y2;
+	double x, y, dx, dy, height, width, dheight, dwidth, dperimeter, x1, x2, y1, y2, PI = 3.1415926535,trn;
 public:
 	void create()
 	{
@@ -177,6 +204,8 @@ public:
 		x2 = x + width / 2;
 		y1 = y + height / 2;
 		y2 = y - height / 2;
+		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
 	}
 	void move()
 	{
@@ -319,6 +348,28 @@ public:
 			break;
 		}
 	}
+	void turn()
+	{
+		/*x1 = (x - cos(cos((sideLength / 2)/ halfDiagonal) - trn) * halfDiagonal)*(-1);
+		y1 = (y - sin(cos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
+		x2 = (x - cos(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);
+		y2 = (y - sin(acos((sideLength / 2) / halfDiagonal) - trn) * halfDiagonal)*(-1);*/
+		/*cout.precision(3);*/
+
+		cin >> trn;
+		trn = PI * trn / 180;
+		cout << trn << endl;
+		x1 = x + (x1 - x) * cos(trn) - (y1 - y) * sin(trn);
+		y1 = y + (y1 - y) * cos(trn) + (x1 - x) * sin(trn);
+		x2 = x + (x2 - x) * cos(trn) - (y2 - y) * sin(trn);
+		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
+
+		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
+		/*	cout << "Координаты левого верхнего угла: " << floor(x1 + 0.555) << ", " << floor(y1 + 0.555) << endl;
+		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.555) << ", " << floor(y2 + 0.555) << endl;*/
+		trn = 0;
+	}
 	void output()
 	{
 		cout << "Координаты центра: " << x << " " << y << " " << "Высота: " << height << " " << "Ширина: " << width << endl;
@@ -393,7 +444,7 @@ int main()
 				F[next]->output();
 				break;
 			case 3:
-				cout << "Введите значение поворота в градусах " << endl;
+				cout << "Введите значение угла поворота в градусах " << endl;
 				F[next]->turn();
 				break;
 			case 4:
