@@ -11,8 +11,7 @@ public:
 	virtual void output() {}
 	virtual void turn() {}
 
-//protected:
-//	double x, y, radius, dx, dy, dradius;
+	int identifier;
 };
 class circle : public Figur
 {
@@ -28,6 +27,7 @@ public:
 		cout << "Введите радиус" << endl;
 		cout << "Радиус: ";
 		cin >> radius;
+		identifier = 1;
 	}
 	void move()
 	{
@@ -108,6 +108,7 @@ public:
 		cout.precision(3);
 		cout << "Координаты левого верхнего угла: " << x1  << ", " << y1 << endl;
 		cout << "Координаты правого нижнего угла: " << x2  << ", " << y2 << endl;
+		identifier = 2; 
 	}
 	void move()
 	{
@@ -167,8 +168,11 @@ public:
 		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
 
 		
-		cout << "Координаты левого верхнего угла: " << floor(x1 + 0.55555) << ", " << floor(y1 + 0.55555) << endl;
-		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.55555) << ", " << floor(y2 + 0.55555) << endl;
+		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
+
+		/*cout << "Координаты левого верхнего угла: " << floor(x1 + 0.55555) << ", " << floor(y1 + 0.55555) << endl;
+		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.55555) << ", " << floor(y2 + 0.55555) << endl;*/
 		trn = 0;
 	}
 	void output()
@@ -179,7 +183,8 @@ public:
 };
 class rectangle : public Figur
 {
-	double x, y, dx, dy, height, width, dheight, dwidth, dperimeter, x1, x2, y1, y2, PI = 3.1415926535, trn, halfDiagonal;
+	double trn, x, y, dx, dy, height, width, dheight, dwidth, dperimeter, x1, x2, y1, y2, PI = 3.1415926535 ,trnsin,trncos, halfDiagonal;
+	
 public:
 	void create()
 	{
@@ -201,6 +206,7 @@ public:
 		halfDiagonal = sqrt(pow(width / 2, 2) + pow(height / 2, 2));
 		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
 		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
+		identifier = 3;
 	}
 	void move()
 	{
@@ -346,24 +352,60 @@ public:
 	void turn()
 	{
 		
-		/*cout.precision(3);*/
+		cout.precision(5);
 
 		cin >> trn;
-		trn = PI * trn / 180;
-		cout << trn << endl;
-		/*x1 = x + (x1 - x) * cos(trn) - (y1 - y) * sin(trn);
-		y1 = y + (y1 - y) * cos(trn) + (x1 - x) * sin(trn);
-		x2 = x + (x2 - x) * cos(trn) - (y2 - y) * sin(trn);
-		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
-															*/
-		x1 = (x - cos((width / 2) / halfDiagonal - trn) * halfDiagonal);
-		y1 = (y - sin((width / 2) / halfDiagonal - trn) * halfDiagonal);
-		x2 = (x - cos(cos((width / 2) / halfDiagonal) - trn) * halfDiagonal);
-		y2 = (y - sin(cos((width / 2) / halfDiagonal) - trn) * halfDiagonal);
+		
+		double x_1 = x1, y_1 = y1, x_2 = x2, y_2 = y2;
 
-		cout << "Координаты левого верхнего угла: " << floor(x1 + 0.55555) << ", " << floor(y1 + 0.55555) << endl;
-		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.55555) << ", " << floor(y2 + 0.55555) << endl;
+		while(1)
+		{
+			if ((int)trn % 180 == 0)
+			{
+				trn = PI * trn / 180;
+				x1 = x + (x_1 - x) * cos(trn);
+				y1 = y + (y_1 - y) * cos(trn);
+				x2 = x + (x_2 - x) * cos(trn);
+				y2 = y + (y_2 - y) * cos(trn);
+				break;
+			}
+
+			else if ((int)trn % 90 == 0)
+			{
+				trn = PI * trn / 180;
+				x1 = x - (y_1 - y) * sin(trn);
+				y1 = y + (x_1 - x) * sin(trn);
+				x2 = x - (y_2 - y) * sin(trn);
+				y2 = y + (x_2 - x) * sin(trn);
+				break;
+			}
+			
+			else
+			{
+				trn = PI * trn / 180;
+				x1 = x + (x_1 - x) * cos(trn) - (y_1 - y) * sin(trn);
+				y1 = y + (y_1 - y) * cos(trn) + (x_1 - x) * sin(trn);
+
+				x2 = x + (x_2 - x) * cos(trn) - (y_2 - y) * sin(trn);
+				y2 = y + (y_2 - y) * cos(trn) + (x_2 - x) * sin(trn);
+				break;
+			}
+		}
+		x_1 = x1;
+		x_2 = x2;
+		y_1 = y1;
+		x_2 = x2;
+		cout << trn << endl;
+		cout << cos(trn) << ", " << sin(PI) << endl;
+		
+		cout << "Координаты левого верхнего угла: " << x1 << ", " <<  y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2  << ", " << y2 << endl;
+
 		trn = 0;
+	}
+	void intersection()
+	{
+
 	}
 	void output()
 	{
@@ -421,7 +463,7 @@ int main()
 		F[next]->create();
 		int postmenu;
 		bool flag = false;
-		
+
 		while (!flag)
 		{
 			cout << "Выберите функцию" << endl << "1)Перемещение" << endl << "2)Изменение размера" << endl << "3)Поворот" << endl << "4)Закончить" << endl;
@@ -451,7 +493,6 @@ int main()
 			}
 		}
 	}
-
 
 	system("pause");
 	return 0;
