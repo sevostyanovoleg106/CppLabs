@@ -3,36 +3,37 @@
 
 using namespace std;
 
+
 class Figur {
 public:
+	
 	virtual void create() {}
-	virtual void move() {}
+	virtual void move(double dx, double dy) {}
 	virtual void size() {}
 	virtual void output() {}
 	virtual void turn() {}
-
+	double x, y, radius, trn, dradius, dx, dy;
+protected:
 	int identifier;
+	
 };
 class circle : public Figur
 {
-	double x, y, radius, dx, dy, dradius, trn;
+	
 public:
-	void create()
+	double x, y, radius, trn, dradius, dx, dy;
+
+	circle(double X, double Y, double Radius)
 	{
-		cout << "Введите координат центра" << endl;
-		cout << "По оси X: ";
-		cin >> x;
-		cout << "По оси Y: ";
-		cin >> y;
-		cout << "Введите радиус" << endl;
-		cout << "Радиус: ";
-		cin >> radius;
+		x = X;
+		y = Y;
+		radius = Radius;
+	
 		identifier = 1;
 	}
-	void move()
+	void move(double dx, double dy)
 	{
-		cin >> dx;
-		cin >> dy;
+		
 		x += dx;
 		y += dy;
 	}
@@ -81,39 +82,29 @@ public:
 		cin >> trn;
 		cout << "Фигура повёрнута на " << trn << " градусов" << endl;
 	}
-	void output()
-	{
-		cout << "Координаты центра: " << x << " " << y << " " << "Радиус: " << radius << endl;
-	}
+
+	~circle() {}
+	
 };
 class square : public Figur
 {
-	double x, y, dx, dy, sideLength, dsideLength, trn, x1, x2, y1, y2, halfDiagonal, PI= 3.1415926535;
+	
 public:
-	void create()
+	double x, y, dx, dy, sideLength, dsideLength, trn, x1, x2, y1, y2, halfDiagonal, PI = 3.1415926535;
+	square(double X, double Y, double SideLength)
 	{
-		cout << "Введите координат центра" << endl;
-		cout << "По оси X: ";
-		cin >> x;
-		cout << "По оси Y: ";
-		cin >> y;
-		cout << "Введите значение стороны" << endl;
-		cout << "Размер: ";
-		cin >> sideLength;
-		halfDiagonal = sqrt((sideLength / 2)*(sideLength / 2) * 2);
-		x1 = x - sideLength / 2;
-		y1 = y + sideLength / 2;
-		x2 = x + sideLength / 2;
-		y2 = y - sideLength / 2;
-		cout.precision(3);
-		cout << "Координаты левого верхнего угла: " << x1  << ", " << y1 << endl;
-		cout << "Координаты правого нижнего угла: " << x2  << ", " << y2 << endl;
+		x = X;
+		y = Y;
+		sideLength = SideLength;
+		halfDiagonal = sqrt((SideLength / 2)*(SideLength / 2) * 2);
+		x1 = X - SideLength / 2;
+		y1 = Y + SideLength / 2;
+		x2 = X + SideLength / 2;
+		y2 = Y - SideLength / 2;
 		identifier = 2; 
 	}
-	void move()
+	void move(double dx, double dy)
 	{
-		cin >> dx;
-		cin >> dy;
 		x += dx;
 		y += dy;
 	}
@@ -157,28 +148,22 @@ public:
 			break;
 		}
 	}
-	void turn()
+	void turn(double Trn)
 	{
-		cin >> trn;
+		trn = Trn;
 		trn = PI*trn/180;
-		cout << trn << endl;
 		x1 = x + (x1 - x) * cos(trn) - (y1 - y) * sin(trn);
 		y1 = y + (y1 - y) * cos(trn) + (x1 - x) * sin(trn);
 		x2 = x + (x2 - x) * cos(trn) - (y2 - y) * sin(trn);
 		y2 = y + (y2 - y) * cos(trn) + (x2 - x) * sin(trn);
 
-		
-		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
-		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
-
-		/*cout << "Координаты левого верхнего угла: " << floor(x1 + 0.55555) << ", " << floor(y1 + 0.55555) << endl;
-		cout << "Координаты правого нижнего угла: " << floor(x2 + 0.55555) << ", " << floor(y2 + 0.55555) << endl;*/
 		trn = 0;
 	}
 	void output()
 	{
 		cout << "Координаты центра: " << x << " " << y << " " << "Сторона: " << sideLength << endl;
-
+		cout << "Координаты левого верхнего угла: " << x1 << ", " << y1 << endl;
+		cout << "Координаты правого нижнего угла: " << x2 << ", " << y2 << endl;
 	}
 };
 class rectangle : public Figur
@@ -412,18 +397,21 @@ public:
 		cout << "Координаты центра: " << x << " " << y << " " << "Высота: " << height << " " << "Ширина: " << width << endl;
 	}
 };
+
+
 int main()
 {
 	setlocale(0, "");
 	Figur **F = new Figur*[100];
 	bool flag1 = false;
 	int next = -1;
-	circle * c = new circle;
+	circle *c = new circle(0, 0, 0);
 	Figur *cir = c;
-	square * s = new square;
+	square *s = new square(0, 0, 0);
 	Figur *sq = s;
 	rectangle * r = new rectangle;
 	Figur *rect = r;
+
 	while (1)
 	{
 		flag1 = false;
@@ -431,7 +419,7 @@ int main()
 		{
 			int menu;
 			cout << "Выбeрете тип фигуры" << endl;
-			cout << "1) Круг" << endl << "2)Квадрат" << endl << "3)Прямоугольник" << endl;
+			cout << "1) Круг" << endl << "2) Квадрат" << endl << "3) Прямоугольник" << endl;
 			cin >> menu;
 			switch (menu)
 			{
@@ -440,18 +428,42 @@ int main()
 				next++;
 				cir = c;
 				F[next] = cir;
+				cout << "Введите координат центра" << endl;
+				cout << "По оси X: ";
+				cin >> c->x;
+				cout << "По оси Y: ";
+				cin >> c->y;
+				cout << "Введите значение радиуса" << endl;
+				cout << "Размер: ";
+				cin >> c->radius;
+				circle(c->x,c->y,c->radius);
+				cout << "Координаты центра: " << c->x << " " << c->y << " " << "Радиус: " << c->radius  << endl;
 				flag1 = true;
 				break;
 			case 2:
 				next++;
 				sq = s;
 				F[next] = sq;
+				cout << "Введите координат центра" << endl;
+				cout << "По оси X: ";
+				cin >> s->x;
+				cout << "По оси Y: ";
+				cin >> s->y;
+				cout << "Введите значение стороны" << endl;
+				cout << "Размер: ";
+				cin >> s->sideLength;
+				square(s->x,s->y, s->sideLength);
+				cout << s->x << endl;
+				cout << "Координаты центра: " << s->x << " " << s->y << " " << "Сторона: " << s->sideLength << endl;
+				cout << "Координаты левого верхнего угла: " << s->x1 << ", " << s->y1 << endl;
+				cout << "Координаты правого нижнего угла: " << s->x2 << ", " << s->y2 << endl;
 				flag1 = true;
 				break;
 			case 3:
 				next++;
 				rect = r;
 				F[next] = rect;
+				F[next]->output();
 				flag1 = true;
 				break;
 			default:
@@ -460,7 +472,6 @@ int main()
 			}
 		}
 
-		F[next]->create();
 		int postmenu;
 		bool flag = false;
 
@@ -473,7 +484,10 @@ int main()
 			case 1:
 				cout << "Введите значение координат вектора, на который хотите сдвинуть" << endl;
 				cout << "Значение по X и по Y: ";
-				F[next]->move();
+			
+				cin >> F[next]->dx;
+				cin >> F[next]->dy;
+				F[next]->move(F[next]->dx, F[next]->dy);
 				F[next]->output();
 				break;
 			case 2:
@@ -482,7 +496,9 @@ int main()
 				break;
 			case 3:
 				cout << "Введите значение угла поворота в градусах " << endl;
+				cin >> F[next]->trn;
 				F[next]->turn();
+				F[next]->output();
 				break;
 			case 4:
 				flag = true;
