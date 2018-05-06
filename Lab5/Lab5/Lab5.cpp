@@ -5,7 +5,7 @@ using namespace std;
 
 struct  Output
 {
-	double *x, *y, *radius, *trn, *sideLength, *height, *width, *x1, *y1, *x2, *y2;
+	const double *x, *y, *radius, *trn, *sideLength, *height, *width, *x1, *y1, *x2, *y2;
 	
 };
 
@@ -51,7 +51,7 @@ public:
 		x += dx;
 		y += dy;
 	}
-	bool resize(double dradius)
+	bool resize(double dradius, double delta2)
 	{
 		
 		double radius1 = radius;
@@ -408,7 +408,6 @@ public:
 					cin >> dy;
 					F[next]->move(dx, dy);
 					cout << *(out.x) << ", " << *(out.y) << endl;
-					*(out.x) = 3;
 					break;
 				case 2:
 					if (F[next]->identification() == 1)
@@ -420,7 +419,7 @@ public:
 						{
 							cin >> delta1;
 							
-							if (F[next]->resize(delta1, 0))
+							if (!F[next]->resize(delta1, 0))
 							{
 								cout << "Радиус должен быть больше нуля" << endl;
 								cout << "Чтобы оставить старые значения введите 0 " << endl;
