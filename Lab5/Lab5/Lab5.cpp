@@ -3,13 +3,20 @@
 
 using namespace std;
 
-struct  Output
+class Output
 {
-	const double *x, *y, *radius, *trn, *sideLength, *height, *width, *x1, *y1, *x2, *y2;
-	
+public:
+	const char* output1()
+	{
+		return "Координаты центра :";
+	}
+	const char* output2()
+	{
+		return "Координаты центра :";
+	}
 };
 
-class Figur
+class Figure
 {
 public:
 
@@ -21,18 +28,18 @@ public:
 	{
 		return identifier;
 	}
+	virtual bool intersection(Figure f)
+	{
+		return false;
+	}
 protected:
 	int identifier;
 
 };
-class circle : public Figur
+class circle : public Figure
 {
 	double x, y, radius, trn;
 public:
-	double retRad()
-	{
-		return this->radius;
-	}
 
 	circle(double x, double y, double radius)
 	{
@@ -42,6 +49,13 @@ public:
 
 		identifier = 1;
 	}
+	friend ostream& operator<<(ostream& os, circle c1);
+
+	circle(const Figure& f)
+	{
+		circle c = circle(f);
+	}
+
 	 int identification()
 	{
 		return this->identifier;
@@ -71,36 +85,51 @@ public:
 		this->trn = trn;
 	}
 
-	Output output()
+	bool intersection(Figure f)
 	{
-		Output o;
-		o.x = &(this->x);
-		o.y = &(this->y);
-		o.radius = &(this->radius);
-		o.trn = &(this->trn);
-		return o;
+		circle c = (circle)f;
+		double d = sqrt(pow((c.x - this->x), 2) + pow((c.y - this->y), 2));
+
+		if (this->radius + c.radius > d)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
+	const char* outPut(char* strocka)
+	{
+		return strocka;
+	}
+
+
 };
-class square : public Figur
+class square : public Figure
 {
 	double x, y, dx, dy, sideLength, dsideLength, trn, halfDiagonal, PI = 3.1415926535;
 	double x1, y1, x2, y2;
 public:
 
-	square(double x, double y, double sideLength)
+	square(double x, double y, double sideLength, double x1, double y1, double x2, double y2)
 	{
 		this->x = x;
 		this->y = y;
 		this->sideLength = sideLength;
 		halfDiagonal = sqrt((sideLength / 2)*(sideLength / 2) * 2);
-
 		x1 = x - sideLength / 2;
 		y1 = y + sideLength / 2;
 		x2 = x + sideLength / 2;
 		y2 = y - sideLength / 2;
+		this->x1 = x1;
+		this->y1 = y1;
+		this->x2 = x2;
+		this->y2 = y2;
 		identifier = 2;
 	}
+	friend ostream& operator<<(ostream& os, square s1);
 	int identification(int identifier)
 	{
 		this->identifier = identifier;
@@ -173,22 +202,10 @@ public:
 		x_2 = x2;
 		trn = 0;
 	}
-	Output output()
-	{
-		Output o;
-		o.x = &(this->x);
-		o.y = &(this->y);
-		o.sideLength = &(this->sideLength);
-		o.x1 = &(this->x1);
-		o.y1 = &(this->y1);
-		o.x2 = &(this->x2);
-		o.y2 = &(this->y2);
-		o.trn = &(this->trn);
-		return o;
-	}
+
 
 };
-class rectangle : public Figur
+class rectangle : public Figure
 {
 	double trn, x, y, dx, dy, height, width, dheight, dwidth, dperimeter, PI = 3.1415926535, halfDiagonal, perimeter;
 	double  x1, x2, y1, y2;
@@ -282,36 +299,35 @@ public:
 		x_2 = x2;
 		trn = 0;
 	}
-	Output output()
-	{
-		Output o;
-		o.x = &(this->x);
-		o.y = &(this->y);
-		o.width = &(this->width);
-		o.height = &(this->height);
-		o.x1 = &(this->x1);
-		o.y1 = &(this->y1);
-		o.x2 = &(this->x2);
-		o.y2 = &(this->y2);
-		o.trn = &(this->trn);
-		return o;
-	}
+
 };
 
-
+ostream& operator<<(ostream& os, circle c1)
+{
+	os << "Координаты центра: " << c1.x << ", " << c1.y << ' ' << "Радиус: " << c1.radius << endl;
+	return os;
+}
+ostream& operator<<(ostream& os, square s1)
+{
+	os << "Координаты центра: " << s1.x << ", " << s1.y << ' ' << "Сторона: " << s1.sideLength << endl;
+	os << "Координата левого верхнего угла: " << s1.x1 << ", " << s1.y1 << endl;
+	os << "Координата правого нижнего угла: " << s1.x2 << ", " << s1.y2 << endl;
+	return os;
+}
 	int main()
 	{
 		setlocale(0, "");
-		Figur **F = new Figur*[100];
+		Figure **F = new Figure*[100];
 		bool flag1 = false;
 		int next = -1;
 		circle *c = new circle(0, 0, 0);
-		Figur *cir = c;
-		square *s = new square(0, 0, 0);
-		Figur *sq = s;
+		circle *c1 = new circle(0, 0, 0);
+		Figure *cir = c;
+		square *s = new square(0, 0, 0, 0, 0, 0, 0);
+		Figure *sq = s;
 		rectangle *r = new rectangle(0, 0, 0, 0);
-		Figur *rect = r;
-		int x, y,radius, sideLength, dx, dy, height, width;
+		Figure *rect = r;
+		int x, y, radius, sideLength, dx, dy, height, width, x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		Output out;
 
 		while (1)
@@ -337,9 +353,9 @@ public:
 					cout << "Размер: ";
 					cin >> radius;
 					*c = circle(x, y, radius);
+					circle c1(x, y, radius);
+					cout << c1;
 					cir = c;
-					out = c->output();
-					cout << "Координаты центра: " << *(out.x) << " " << *(out.y) << " " << "Радиус: " << *(out.radius) << endl;
 					F[next] = cir;
 					flag1 = true;
 					break;
@@ -353,16 +369,13 @@ public:
 					cout << "Введите значение стороны" << endl;
 					cout << "Размер: ";
 					cin >> sideLength;
-					*s = square(x, y, sideLength);
+					*s = square(x, y, sideLength, 0, 0, 0, 0);
+					square s1(x, y, sideLength, x1, y1, x2, y2);
 					sq = s;
-					out = s->output();
-					cout << "Координаты центра: " << *(out.x) << " " << *(out.y) << " " << "Сторона: " << *(out.sideLength) << endl;
-					cout << "Координата левого верхнего угла: " << *(out.x1) << ", " << *(out.y1) << endl;
-					cout << "Координата правого нижнего угла: " << *(out.x2) << ", " << *(out.y2) << endl;
 					F[next] = sq;
 					flag1 = true;
 					break;
-				case 3:
+					/*case 3:
 					next++;
 					cout << "Введите координат центра" << endl;
 					cout << "По оси X: ";
@@ -383,15 +396,15 @@ public:
 					cout << "Координата правого нижнего угла: " << *(out.x2) << ", " << *(out.y2) << endl;
 					F[next] = rect;
 					flag1 = true;
-					break;
-				default:
+					break;*/
+			/*	default:
 					cout << "Неверный ввод. Попробуйте снова" << endl;
 					break;
-
+*/
 				}
 			}
 
-			int postmenu;
+		/*	int postmenu;
 			bool flag = false;
 
 			while (!flag)
@@ -499,7 +512,7 @@ public:
 					cout << "Неверный ввод. Попробуйте снова" << endl;
 					break;
 				}
-			}
+			}*/
 		}
 
 		return 0;
