@@ -6,14 +6,7 @@ using namespace std;
 class Output
 {
 public:
-	const char* output1()
-	{
-		return "Координаты центра :";
-	}
-	const char* output2()
-	{
-		return "Координаты центра :";
-	}
+	
 };
 
 class Figure
