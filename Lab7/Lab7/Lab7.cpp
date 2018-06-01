@@ -12,7 +12,9 @@ bool checkingTheInteger(char* str)
 {
 	for (int i = 0; i < strlen(str); i++)
 	{
-		if (!(str[i] >= '0' && str[i] <= '9') || str[i] == '-')
+		if (str[i] == '-')
+			i++;
+		if (!(str[i] >= '0' && str[i] <= '9'))
 		{
 			return false;
 		}
@@ -23,7 +25,20 @@ bool chekingTheFloat(char* str)
 {
 	for (int i = 0; i < strlen(str); i++)
 	{
-		if (!(str[i] >= '0' && str[i] <= '9') || str[i] == '-' || str[i] == '.' )
+		if (str[i] == '-' || str[i] == '.')
+			i++;
+		if (!(str[i] >= '0' && str[i] <= '9'))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+bool chekingTheBool(char* str)
+{
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (!(str[i] >= '0' && str[i] <= '1') || str[i] == '-' || str[i] == '.')
 		{
 			return false;
 		}
@@ -35,7 +50,7 @@ int get_Int()
 	while (1)
 	{
 		char* input = new char[256];
-		cout << "Введите целочисленное значение"<<endl;
+		cout << "Введите целочисленное значение" << endl;
 		cin >> input;
 
 		if (checkingTheInteger(input))
@@ -58,7 +73,7 @@ float get_Float()
 		}
 		else
 			cout << "Неверный ввод! Попробуйте снова" << endl;
-	
+
 	}
 }
 bool get_Bool()
@@ -69,7 +84,7 @@ bool get_Bool()
 		cout << "Введите значение логической переменной" << endl;
 		cin >> input;
 
-		if (checkingTheInteger(input))
+		if (chekingTheBool(input))
 		{
 			int bOol = atoi(input);
 			if (bOol != 0)
@@ -86,7 +101,7 @@ bool get_Bool()
 int get_NumberStruct()
 {
 	char* input = new char[255];
-	cout << "Введите номер структуры"<<endl;
+	cout << "Введите номер структуры" << endl;
 	cin >> input;
 
 	if (checkingTheInteger(input))
@@ -200,7 +215,7 @@ public:
 		{
 			if (this->elementDate.unionValue.boolValue)
 			{
-					buffer[i] = 't';
+				buffer[i] = 't';
 				buffer[i + 1] = 'r';
 				buffer[i + 2] = 'u';
 				buffer[i + 3] = 'e';
@@ -208,7 +223,7 @@ public:
 			}
 			else
 			{
-					buffer[i] = 'f';
+				buffer[i] = 'f';
 				buffer[i + 1] = 'a';
 				buffer[i + 2] = 'l';
 				buffer[i + 3] = 's';
@@ -270,24 +285,24 @@ class Container : public Base
 		int t = container->getContNum();
 		for (int i = 0; i < t; i++)
 		{
-			if (container->getArray()[i]->getType() != inst->getType())			 
+			if (container->getArray()[i]->getType() != inst->getType())
 				continue;
 			else
 			{
-				if (!inst->getType())											 
+				if (!inst->getType())
 				{
 					Container* newInst = new Container, *secInst = new Container;
 					newInst = (Container*)inst;
 					secInst = (Container*)container->getArray()[i];
-					if (newInst != secInst)											
+					if (newInst != secInst)
 					{
-						if (newInst->getContNum() == 0)									
+						if (newInst->getContNum() == 0)
 						{
 							(secInst->getContNum() == 0) ? sum++ : sum = sum;
 						}
-						else														
+						else
 						{
-							if (newInst->getContNum() == secInst->getContNum())     
+							if (newInst->getContNum() == secInst->getContNum())
 							{
 								int tempSum = 0;
 								for (int k = 0; k < newInst->getContNum(); k++)
@@ -302,15 +317,15 @@ class Container : public Base
 						}
 					}
 				}
-				else															
+				else
 				{
 					Element* newInst = new Element, *secInst = new Element;
 					newInst = (Element*)inst;
 					secInst = (Element*)container->getArray()[i];
 					Identifier type = Int;
-					if (newInst->get_Value(type).intValue == secInst->get_Value(type).intValue && newInst != secInst)																									  
-					{						     
-						sum++;					  
+					if (newInst->get_Value(type).intValue == secInst->get_Value(type).intValue && newInst != secInst)
+					{
+						sum++;
 					}
 					else
 						continue;
@@ -377,8 +392,7 @@ public:
 			break;
 		}
 	}
-public:
-	
+
 	int getType()
 	{
 		return 0;
@@ -482,7 +496,7 @@ public:
 		parent = nullptr;
 	}
 
-	~Container()																
+	~Container()
 	{
 		for (int i = 0; i < j; i++)
 		{
@@ -498,7 +512,7 @@ Base * ChangeTheStructure(Container* &current)
 	Base * newCurrent = (Base*)current;
 	while (true)
 	{
-		cout << "3) Вывести" << endl << "5) Переместится вниз" << endl << "6) Переместится вверх" << endl << "9) Выбор";
+		cout << endl << "3) Вывести" << endl << "5) Переместится вниз" << endl << "6) Переместится вверх" << endl << "9) Выбор" << endl;
 		switch (get_choice())
 		{
 		case 3:
@@ -518,7 +532,7 @@ Base * ChangeTheStructure(Container* &current)
 		case 9:
 		{
 			short choice2;
-			cout << "Введите 0 что бы выбрать текущую структуру или введите конкретный номер структуры";
+			cout << "Введите 0 что бы выбрать текущую структуру или введите конкретный номер структуры" << endl;
 			cin >> choice2;
 			if (choice2)
 			{
@@ -548,7 +562,7 @@ int main()
 			current->addContainer();
 			break;
 		case 2:
-			cout << "Выберите тип данных :"<<endl << "1) целочисленный"<<endl <<"2) с плавающей точкой"<<endl<<"3) логическая"<<endl;
+			cout << "Выберите тип данных :" << endl << "1) целочисленный" << endl << "2) с плавающей точкой" << endl << "3) логическая" << endl;
 			int choice;
 			cin >> choice;
 			current->addElement(choice);
@@ -606,3 +620,4 @@ int main()
 		}
 	}
 }
+//2 1 1 2 1 2 2 1 3 2 1 4 2 1 5
