@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 using namespace std;
 
@@ -50,13 +50,13 @@ int get_Int()
 	while (1)
 	{
 		char* input = new char[256];
-		cout << "Ââåäèòå öåëî÷èñëåííîå çíà÷åíèå" << endl;
+		cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ†ÐµÐ»Ð¾Ñ‡Ð¸ÑÐ»ÐµÐ½Ð½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ" << endl;
 		cin >> input;
 
 		if (checkingTheInteger(input))
 			return atoi(input);
 		else
-			cout << "Íåâåðíûé ââîä! Ïîïðîáóéòå ñíîâà" << endl;
+			cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´! ÐŸÐ¾Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ ÑÐ½Ð¾Ð²Ð°" << endl;
 	}
 }
 float get_Float()
@@ -64,7 +64,7 @@ float get_Float()
 	while (1)
 	{
 		char* input = new char[256];
-		cout << "Ââåäèòå çíà÷åíèå ñ ïëàâàþùåé òî÷êîé" << endl;
+		cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ñ Ð¿Ð»Ð°Ð²Ð°ÑŽÑ‰ÐµÐ¹ Ñ‚Ð¾Ñ‡ÐºÐ¾Ð¹" << endl;
 		cin >> input;
 
 		if (chekingTheFloat(input))
@@ -72,7 +72,7 @@ float get_Float()
 			return atof(input);
 		}
 		else
-			cout << "Íåâåðíûé ââîä! Ïîïðîáóéòå ñíîâà" << endl;
+			cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´! ÐŸÐ¾Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ ÑÐ½Ð¾Ð²Ð°" << endl;
 
 	}
 }
@@ -81,7 +81,7 @@ bool get_Bool()
 	while (1)
 	{
 		char* input = new char[256];
-		cout << "Ââåäèòå çíà÷åíèå ëîãè÷åñêîé ïåðåìåííîé" << endl;
+		cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹" << endl;
 		cin >> input;
 
 		if (chekingTheBool(input))
@@ -94,20 +94,20 @@ bool get_Bool()
 				return false;
 		}
 		else
-			cout << "Íåâåðíûé ââîä! Ïîïðîáóéòå ñíîâà" << endl;
+			cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´! ÐŸÐ¾Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ ÑÐ½Ð¾Ð²Ð°" << endl;
 
 	}
 }
 int get_NumberStruct()
 {
 	char* input = new char[255];
-	cout << "Ââåäèòå íîìåð ñòðóêòóðû" << endl;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹" << endl;
 	cin >> input;
 
 	if (checkingTheInteger(input))
 		return atoi(input);
 	else
-		cout << "Íåâåðíûé ââîä! Ïîïðîáóéòå ñíîâà" << endl;
+		cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ð²Ð¾Ð´! ÐŸÐ¾Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ ÑÐ½Ð¾Ð²Ð°" << endl;
 }
 void outputConsol(char* buf, int length)
 {
@@ -512,7 +512,7 @@ Base * ChangeTheStructure(Container* &current)
 	Base * newCurrent = (Base*)current;
 	while (true)
 	{
-		cout << endl << "3) Âûâåñòè" << endl << "5) Ïåðåìåñòèòñÿ âíèç" << endl << "6) Ïåðåìåñòèòñÿ ââåðõ" << endl << "9) Âûáîð" << endl;
+		cout << endl << "3) Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸" << endl << "5) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð½Ð¸Ð·" << endl << "6) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð²ÐµÑ€Ñ…" << endl << "9) Ð’Ñ‹Ð±Ð¾Ñ€" << endl;
 		switch (get_choice())
 		{
 		case 3:
@@ -532,7 +532,7 @@ Base * ChangeTheStructure(Container* &current)
 		case 9:
 		{
 			short choice2;
-			cout << "Ââåäèòå 0 ÷òî áû âûáðàòü òåêóùóþ ñòðóêòóðó èëè ââåäèòå êîíêðåòíûé íîìåð ñòðóêòóðû" << endl;
+			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ 0 Ñ‡Ñ‚Ð¾ Ð±Ñ‹ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ñ‚ÐµÐºÑƒÑ‰ÑƒÑŽ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñƒ Ð¸Ð»Ð¸ Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹" << endl;
 			cin >> choice2;
 			if (choice2)
 			{
@@ -555,14 +555,14 @@ int main()
 	current = &root;
 	while (1)
 	{
-		cout << "1) Ñîçäàòü êîíòåéíèð" << endl << "2) Ñîçäàòü ýëåìåíò" << endl << "3) Âûâåñòè" << endl << "4) Ïðîâåðèòü ðàâåíñòâî" << endl << "5) Ïåðåìåñòèòñÿ âíèç" << endl << "6) Ïåðåìåñòèòñÿ ââåðõ" << endl << "0) Âûõîä" << endl;
+		cout << "1) Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ‚ÐµÐ¹Ð½Ð¸Ñ€" << endl << "2) Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚" << endl << "3) Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸" << endl << "4) ÐŸÑ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ Ñ€Ð°Ð²ÐµÐ½ÑÑ‚Ð²Ð¾" << endl << "5) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð½Ð¸Ð·" << endl << "6) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð²ÐµÑ€Ñ…" << endl << "0) Ð’Ñ‹Ñ…Ð¾Ð´" << endl;
 		switch (get_choice())
 		{
 		case 1:
 			current->addContainer();
 			break;
 		case 2:
-			cout << "Âûáåðèòå òèï äàííûõ :" << endl << "1) öåëî÷èñëåííûé" << endl << "2) ñ ïëàâàþùåé òî÷êîé" << endl << "3) ëîãè÷åñêàÿ" << endl;
+			cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ‚Ð¸Ð¿ Ð´Ð°Ð½Ð½Ñ‹Ñ… :" << endl << "1) Ñ†ÐµÐ»Ð¾Ñ‡Ð¸ÑÐ»ÐµÐ½Ð½Ñ‹Ð¹" << endl << "2) Ñ Ð¿Ð»Ð°Ð²Ð°ÑŽÑ‰ÐµÐ¹ Ñ‚Ð¾Ñ‡ÐºÐ¾Ð¹" << endl << "3) Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ" << endl;
 			int choice;
 			cin >> choice;
 			current->addElement(choice);
@@ -587,18 +587,18 @@ int main()
 			{
 				newFstInstE = (Element*)fstInst;
 				if (newFstInstE->equals(ChangeTheStructure(current)))
-					cout << "Ñòðóêòóðû ðàâíû" << endl;
+					cout << "Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹ Ñ€Ð°Ð²Ð½Ñ‹" << endl;
 				else
-					cout << "Ñòðóêòóðû íå ðàâíû" << endl;;
+					cout << "Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹ Ð½Ðµ Ñ€Ð°Ð²Ð½Ñ‹" << endl;;
 				delete newFstInstC;
 			}
 			else
 			{
 				newFstInstC = (Container*)fstInst;
 				if (newFstInstC->equals(ChangeTheStructure(current)))
-					cout << "Ñòðóêòóðû ðàâíû" << endl;
+					cout << "Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹ Ñ€Ð°Ð²Ð½Ñ‹" << endl;
 				else
-					cout << "Ñòðóêòóðû íå ðàâíû" << endl;;
+					cout << "Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹ Ð½Ðµ Ñ€Ð°Ð²Ð½Ñ‹" << endl;;
 				delete newFstInstE;
 			}
 		}
@@ -606,13 +606,13 @@ int main()
 		case 5:
 			if (!current->moveDown(current))
 			{
-				cout << "Íåêóäà îïóñêàòüñÿ " << endl;
+				cout << "ÐÐµÐºÑƒÐ´Ð° Ð¾Ð¿ÑƒÑÐºÐ°Ñ‚ÑŒÑÑ " << endl;
 			}
 			break;
 		case 6:
 			if (!current->moveUp(current))
 			{
-				cout << "Íåêóäà ïîäíèìàòüñÿ" << endl;
+				cout << "ÐÐµÐºÑƒÐ´Ð° Ð¿Ð¾Ð´Ð½Ð¸Ð¼Ð°Ñ‚ÑŒÑÑ" << endl;
 			}
 			break;
 		case 0:
