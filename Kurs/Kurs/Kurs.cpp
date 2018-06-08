@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <ctime>
 #include <windows.h>
@@ -35,7 +35,7 @@ char* sumOFlines(char* buf, const char* buffer = new char[256])
 int get_NumberStruct()
 {
 	char* input = new char[2];
-	cout << "Ââåäèòå íîìåð ñòðóêòóðû" << endl;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹" << endl;
 	cin >> input;
 	return atoi(input);
 }
@@ -376,7 +376,7 @@ Collection<int,int>* ChangeTheStructure(Catalog* &current)
 	Collection<int, int>* newCurrent = (Collection<int, int>*)current;
 	while (true)
 	{
-		cout << endl << "3) Âûâåñòè" << endl << "5) Ïåðåìåñòèòñÿ âíèç" << endl << "6) Ïåðåìåñòèòñÿ ââåðõ" << endl << "9) Âûáîð" << endl;
+		cout << endl << "3) Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸" << endl << "5) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð½Ð¸Ð·" << endl << "6) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð²ÐµÑ€Ñ…" << endl << "9) Ð’Ñ‹Ð±Ð¾Ñ€" << endl;
 		switch (get_choice())
 		{
 		case 3:
@@ -396,7 +396,7 @@ Collection<int,int>* ChangeTheStructure(Catalog* &current)
 		case 9:
 		{
 			short choice2;
-			cout << "Ââåäèòå 0 ÷òî áû âûáðàòü òåêóùóþ ñòðóêòóðó èëè ââåäèòå êîíêðåòíûé íîìåð ñòðóêòóðû" << endl;
+			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ 0 Ñ‡Ñ‚Ð¾ Ð±Ñ‹ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ñ‚ÐµÐºÑƒÑ‰ÑƒÑŽ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñƒ Ð¸Ð»Ð¸ Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñ‹" << endl;
 			cin >> choice2;
 			if (choice2)
 			{
@@ -425,11 +425,11 @@ int main()
 	int i = 0;
 	while (1)
 	{
-		cout << "1) Ñîçäàòü êàòàëîã" << endl << "2) Ñîçäàòü ôàéë" << endl << "3) Âûâåñòè"  << endl << "4) Ïåðåìåñòèòñÿ âíèç" << endl << "5) Ïåðåìåñòèòñÿ ââåðõ" << endl << "0) Âûõîä" << endl;
+		cout << "1) Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³" << endl << "2) Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ Ñ„Ð°Ð¹Ð»" << endl << "3) Ð’Ñ‹Ð²ÐµÑÑ‚Ð¸"  << endl << "4) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð½Ð¸Ð·" << endl << "5) ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑÑ Ð²Ð²ÐµÑ€Ñ…" << endl << "0) Ð’Ñ‹Ñ…Ð¾Ð´" << endl;
 		switch (get_choice())
 		{
 		case 1:
-			cout << "Ââåäèòå íàçâàíåèå êàòàëîãà" << endl;
+			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð°Ð·Ð²Ð°Ð½ÐµÐ¸Ðµ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°" << endl;
 			cin >> nameCatalog;
 			current->addCatalog(nameCatalog);
 			break;
@@ -446,13 +446,13 @@ int main()
 		case 4:
 			if (!current->moveDown(current))
 			{
-				cout << "Íåêóäà îïóñêàòüñÿ " << endl;
+				cout << "ÐÐµÐºÑƒÐ´Ð° Ð¾Ð¿ÑƒÑÐºÐ°Ñ‚ÑŒÑÑ " << endl;
 			}
 			break;
 		case 5:
 			if (!current->moveUp(current))
 			{
-				cout << "Íåêóäà ïîäíèìàòüñÿ" << endl;
+				cout << "ÐÐµÐºÑƒÐ´Ð° Ð¿Ð¾Ð´Ð½Ð¸Ð¼Ð°Ñ‚ÑŒÑÑ" << endl;
 			}
 			break;
 		case 0:
