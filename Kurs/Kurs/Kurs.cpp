@@ -16,21 +16,29 @@ char* copyOFlines(char* buf, char* buffer = new char[256])
 	}
 	return buf;
 }
-char* sumOFlines(char* buf, const char* buffer = new char[256])
+char* STRCAT(char* buf, const char* buffer)
 {
-	int index = 0;
-	for (int i = 0; i < strlen(buf); i++)
+	char* buff = new char[256];
+	int i = 0;
+	for (i; i < strlen(buf) + 1; i++)
 	{
 		if (buf[i] != '\0')
-			continue;
+			buff[i] = buf[i];
 		else
-			index = i;
+		{
+			break;
+		}
+
 	}
-	for (index; index < strlen(buffer); index++)
+	buff[i] = '\0';
+	//buff[i] = ' ';
+	//i++;
+	for (int j = 0; j < strlen(buffer); j++, i++)
 	{
-		buf[index] = buffer[index];
+		buff[i] = buffer[j];
 	}
-	return buf;
+	buff[i] = '\0';
+	return buff;
 }
 int get_NumberStruct()
 {
@@ -51,7 +59,7 @@ class Collection
 	int index = 0;
 	void arrayExpansion(Collection array)
 	{
-		int newLenght = length;
+		int newLenght = length*2;
 		Collection* newArray = new Collection[newLenght];
 		for (int i = 0; i < lenght; i++)
 		{
@@ -203,21 +211,21 @@ public:
 
 	char* toString(File &f, char* buffer= new char[256] )
 	{
-		copyOFlines(buffer, (char*)f.get_name());
-		sumOFlines(buffer, " ");
-		sumOFlines(buffer, (char*)f.get_day());
-		sumOFlines(buffer, ".");
-		sumOFlines(buffer, (char*)f.get_month());
-		sumOFlines(buffer, ".");
-		sumOFlines(buffer, (char*)f.get_year());
-		sumOFlines(buffer, "      Time: ");
-		sumOFlines(buffer, (char*)f.get_hour());
-		sumOFlines(buffer, ":");
-		sumOFlines(buffer, (char*)f.get_minute());
-		sumOFlines(buffer, ":");
-		sumOFlines(buffer, (char*)f.get_second());
-		sumOFlines(buffer, "  Visits: ");
-		sumOFlines(buffer, (char*)f.get_numberOFvisits());
+		STRCAT(buffer, (char*)f.get_name());
+		STRCAT(buffer, " ");
+		STRCAT(buffer, (char*)f.get_day());
+		STRCAT(buffer, ".");
+		STRCAT(buffer, (char*)f.get_month());
+		STRCAT(buffer, ".");
+		STRCAT(buffer, (char*)f.get_year());
+		STRCAT(buffer, "      Time: ");
+		STRCAT(buffer, (char*)f.get_hour());
+		STRCAT(buffer, ":");
+		STRCAT(buffer, (char*)f.get_minute());
+		STRCAT(buffer, ":");
+		STRCAT(buffer, (char*)f.get_second());
+		STRCAT(buffer, "  Visits: ");
+		STRCAT(buffer, (char*)f.get_numberOFvisits());
 		
 		return buffer;
 	}
@@ -232,7 +240,7 @@ class Catalog
 	Collection<int, int>** arr = new Collection<int, int>*[length];
 	void arrayExpansion()
 	{
-		int newLenght = length;
+		int newLenght = length*2;
 		Collection<int, int>** newArray = new Collection<int, int>*[length];
 		for (int i = 0; i < length; i++)
 		{
@@ -284,7 +292,7 @@ public:
 	{
 		buffer[i] = '[';
 		i++;
-		sumOFlines(buffer, get_name());
+		STRCAT(buffer, get_name());
 		i += strlen(get_name());
 		for (int f = 0; f < j; f++)
 		{
