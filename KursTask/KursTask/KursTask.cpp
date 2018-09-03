@@ -1,17 +1,22 @@
-//Вариант 3
-//Написать программу, моделирующую управление каталогом в файловой системе.
-//Для каждого файла в каталоге содержатся следующие сведения : имя файла, дата создания, количество обращений к файлу.
-//Программа должна обеспечивать :
-//
-//создание каталога или файла в выбранном каталоге;
-//вывод содержимого каталога(аналог команды dir в cmd);
-//удаление файлов, дата создания которых раньше заданной;
-//просмотр и редактирование файла;
-//выборку файла с наибольшим количеством просмотров;
-//Выбор моделируемой функции должен осуществляться с помощью меню.
-//
-//Для представления каталога использовать класс «коллекция ключ - значение».
-//Хранить всю информацию(всю систему каталогов и файлов) в базе данных в виде текстового файла.
+/*
+РќР°РїРёСЃР°С‚СЊ РїСЂРѕРіСЂР°РјРјСѓ, РјРѕРґРµР»РёСЂСѓСЋС‰СѓСЋ СѓРїСЂР°РІР»РµРЅРёРµ РєР°С‚Р°Р»РѕРіРѕРј РІ С„Р°Р№Р»РѕРІРѕР№ СЃРёСЃС‚РµРјРµ. 
+Р”Р»СЏ РєР°Р¶РґРѕРіРѕ С„Р°Р№Р»Р° РІ РєР°С‚Р°Р»РѕРіРµ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ СЃР»РµРґСѓСЋС‰РёРµ СЃРІРµРґРµРЅРёСЏ: РёРјСЏ С„Р°Р№Р»Р°, РґР°С‚Р° СЃРѕР·РґР°РЅРёСЏ, РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЂР°С‰РµРЅРёР№ Рє С„Р°Р№Р»Сѓ.
+РџСЂРѕРіСЂР°РјРјР° РґРѕР»Р¶РЅР° РѕР±РµСЃРїРµС‡РёРІР°С‚СЊ:
+
+СЃРѕР·РґР°РЅРёРµ РєР°С‚Р°Р»РѕРіР° РёР»Рё С„Р°Р№Р»Р° РІ РІС‹Р±СЂР°РЅРЅРѕРј РєР°С‚Р°Р»РѕРіРµ;+
+
+РІС‹РІРѕРґ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ РєР°С‚Р°Р»РѕРіР° (Р°РЅР°Р»РѕРі РєРѕРјР°РЅРґС‹ dir РІ cmd);-
+
+СѓРґР°Р»РµРЅРёРµ С„Р°Р№Р»РѕРІ, РґР°С‚Р° СЃРѕР·РґР°РЅРёСЏ РєРѕС‚РѕСЂС‹С… СЂР°РЅСЊС€Рµ Р·Р°РґР°РЅРЅРѕР№;-
+
+РїСЂРѕСЃРјРѕС‚СЂ Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С„Р°Р№Р»Р°;-
+
+РІС‹Р±РѕСЂРєСѓ С„Р°Р№Р»Р° СЃ РЅР°РёР±РѕР»СЊС€РёРј РєРѕР»РёС‡РµСЃС‚РІРѕРј РїСЂРѕСЃРјРѕС‚СЂРѕРІ;-
+
+Р’С‹Р±РѕСЂ РјРѕРґРµР»РёСЂСѓРµРјРѕР№ С„СѓРЅРєС†РёРё РґРѕР»Р¶РµРЅ РѕСЃСѓС‰РµСЃС‚РІР»СЏС‚СЊСЃСЏ СЃ РїРѕРјРѕС‰СЊСЋ РјРµРЅСЋ. 
+Р”Р»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ РєР°С‚Р°Р»РѕРіР° РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РєР»Р°СЃСЃ В«РєРѕР»Р»РµРєС†РёСЏ РєР»СЋС‡-Р·РЅР°С‡РµРЅРёРµВ».
+РҐСЂР°РЅРёС‚СЊ РІСЃСЋ РёРЅС„РѕСЂРјР°С†РёСЋ (РІСЃСЋ СЃРёСЃС‚РµРјСѓ РєР°С‚Р°Р»РѕРіРѕРІ Рё С„Р°Р№Р»РѕРІ) РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С… РІ РІРёРґРµ С‚РµРєСЃС‚РѕРІРѕРіРѕ С„Р°Р№Р»Р°.
+*/
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -100,10 +105,6 @@ public:
 		time = STRCAT(time, secondStr);
 		return time;
 	}
-	bool cmpDateTime(char* first, char* second)
-	{
-
-	}
 
 };
 class Recording
@@ -130,9 +131,10 @@ public:
 	{
 		this->id = id;
 	}
+
 	int get_id() { return id; }
 	int get_numberOfvisits() { return numberOfvisits; }
-	char* get_name() { return  this->name; }
+	char* get_name() { return  name; }
 	int get_parentId() { return parentId; }
 	char* get_date() { return date; }
 	char* get_type() { return type; }
@@ -154,7 +156,7 @@ public:
 
 	void print()
 	{
-		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() << "\t" << value.get_date() << endl;
+		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() <<"\t"<<value.get_parentId()<< "\t" << value.get_date() << endl;
 	}
 };
 class FileSystem
@@ -201,7 +203,7 @@ public:
 	{
 		for (int i = 0; i < fs.get_size(); i++)
 		{
-			if (fs.array[i].value.get_name() == name)
+			if (!strcmp(fs.array[i].value.get_name(), name))
 				return fs.array[i].value.get_id();
 		}
 	}
@@ -237,14 +239,14 @@ public:
 		ofstream fout("LOL.txt");
 		for (int i = 0; i < size; i++)
 		{
-			fout << array[i].value.get_id() << ";" << array[i].value.get_type() << ";" << array[i].value.get_name() << ";" << array[i].value.get_numberOfvisits() << ";" << array[i].value.get_parentId() << ";" << array[i].value.get_date() << '\0' << endl;
+			fout << array[i].value.get_id() << ";" << array[i].value.get_type() << ";" << array[i].value.get_name() << ";" << array[i].value.get_numberOfvisits() << ";"<< array[i].value.get_parentId() << ";" << array[i].value.get_date() << '\0' << endl;
 		}
 	}
 	void print()
 	{
 		for (int i = 0; i < size; i++)
 		{
-			cout << i + 1 << ". ";
+			cout << i << ". ";
 			array[i].print();
 		}
 	}
@@ -258,21 +260,22 @@ public:
 	{
 
 		int count = 0;
-		for (int i = 0; i < strlen(buffer); i++)
+		for (int i = 0; i <= strlen(buffer) ; i++)
 		{
 			if (buffer[i] == '\\' || buffer[i] == '\0')
 				count++;
 		}
-		char** arr = new char*[count + 1];
-		for (int g = 0; g < count + 1; g++)
+		char** arr = new char*[count];
+		for (int g = 0; g < count; g++)
 		{
 			arr[g] = new char[256];
 		}
-		char*  temp = new char[256];
+		
 		int tempIndex = 0;
 		int i = 0;
-		for (int j = 0; j < count + 1; j++)
+		for (int j = 0; j < count ; j++)
 		{
+			char*  temp = new char[256];
 			for (i; i < strlen(buffer) + 1; i++)
 			{
 				if (buffer[i] != '\\' || buffer[i] == '\0')
@@ -290,35 +293,18 @@ public:
 			i++;
 			arr[j] = temp;
 		}
-		for (int f = 0; f < count + 1; f++)
-		{
-			cout << arr[f] << endl;
-		}
-
-		int id = searchIdByName(arr[0], fs);  
+		if (count == 1)
+			return 0;
+		int id = searchIdByName(arr[0], fs);
 		FileSystem *childs = new FileSystem();
-		for (int f = 0; f < count + 1; f++)
+		for (int f = 1; f < count ; f++)
 		{
-			if (arr[f] == "R:")
+			childs = getArrayChilds(id, fs);
+			for (int j = 0; j < childs->get_size(); j++)
 			{
-				childs = getArrayChilds(id, fs);
-				for (int j = 0; j < childs->get_size(); j++)
+				if (!strcmp(arr[f], childs->array[j].value.get_name()))
 				{
-					if (arr[f + 1] == childs->array[j].value.get_name())
-					{
-						id = searchIdByName(childs->array[j].value.get_name(), *childs);
-					}
-				}
-			}
-			else
-			{
-				childs = getArrayChilds(id, *childs);
-				for (int j = 0; j < childs->get_size(); j++)
-				{
-					if (arr[f + 1] == childs->array[j].value.get_name())
-					{
-						id = searchIdByName(childs->array[j].value.get_name(), *childs);
-					}
+					id = searchIdByName(childs->array[j].value.get_name(), *childs);
 				}
 			}
 		}
@@ -415,7 +401,7 @@ public:
 			return true;
 		}
 		else
-			cout << "Файл с данными не найден." << endl;
+			cout << "Р¤Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ" << endl;
 
 		return false;
 	}
@@ -445,37 +431,40 @@ int main()
 		char *name = new char[256];
 		char *road = new char[256];
 		int parentId = 0;
-		cout << "1 - файл" << endl << "2 - папка" << endl << "3 - выход" << endl;
+		cout << "1 - С„Р°Р№Р»" << endl << "2 - РїР°РїРєР°" << endl <<"3 - РІС‹РІРµСЃС‚Рё"<<endl<< "4 - СЃРѕС…СЂР°РЅРёС‚СЊ Рё РІС‹Р№С‚Рё" << endl;
 		cin >> choose;
 		switch (choose)
 		{
 		case 1:
 
-			cout << "Введите путь: ";
+			cout << "Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ: ";
 			cin >> road;
 			parentId = fs.searchId(road, fs);
-			cout << "Введите имя файла" << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°" << endl;
 			cin >> name;
 			GetSystemTime(&st);
 			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st));
+			fs.save();
 			break;
 		case 2:
-			cout << "Введите путь: ";
+			cout << "Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ: ";
 			cin >> road;
 			parentId = fs.searchId(road, fs);
-			cout << "Введите имя папки" << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ РїР°РїРєРё" << endl;
 			cin >> name;
 			GetSystemTime(&st);
 			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st));
+			fs.save();
 			break;
 		case 3:
 			fs.print();
-			fs.save();
 			break;
+		case 4:
+			return 0;
 		}
+		
 	}
 
 	system("pause");
 	return 0;
 }
-//1 R:\Test LOL
