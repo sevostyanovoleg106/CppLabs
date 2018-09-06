@@ -5,7 +5,7 @@
 
 создание каталога или файла в выбранном каталоге;+
 
-вывод содержимого каталога (аналог команды dir в cmd);-
+вывод содержимого каталога (аналог команды dir в cmd);+
 
 удаление файлов, дата создания которых раньше заданной;-
 
@@ -116,8 +116,9 @@ class Recording
 	SYSTEMTIME st;
 	char* date;
 	char* type;
+	char* body;
 public:
-	Recording(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date)
+	Recording(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date, char* body)
 	{
 		this->id = id;
 		this->numberOfvisits = numberOfvisits;
@@ -125,6 +126,7 @@ public:
 		this->parentId = parentId;
 		this->date = date;
 		this->type = type;
+		this->body = body;
 	}
 	Recording() {}
 	void set_id(int id)
@@ -138,6 +140,8 @@ public:
 	int get_parentId() { return parentId; }
 	char* get_date() { return date; }
 	char* get_type() { return type; }
+	char* get_body() { return body; }
+	void set_body(char* body) { this->body = body;}
 };
 template <class TKey, class TValue>
 class CollectionElem
@@ -146,9 +150,9 @@ public:
 	TKey key;
 	TValue value;
 
-	CollectionElem(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date)
+	CollectionElem(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date, char* body)
 	{
-		value = Recording(id, name, numberOfvisits, parentId, type, date);
+		value = Recording(id, name, numberOfvisits, parentId, type, date, body);
 		key = id;
 	}
 
@@ -156,7 +160,7 @@ public:
 
 	void print()
 	{
-		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() <<"\t"<<value.get_parentId()<< "\t" << value.get_date() << endl;
+		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() <<"\t"<<value.get_parentId()<< "\t" << value.get_date() <<"\t"<<value.get_body()<< endl;
 	}
 };
 class FileSystem
@@ -220,17 +224,18 @@ public:
 					fs.array[i].value.get_numberOfvisits(),
 					fs.array[i].value.get_parentId(),
 					fs.array[i].value.get_type(),
-					fs.array[i].value.get_date());
+					fs.array[i].value.get_date(),
+					fs.array[i].value.get_body());
 			}
 		}
 		return mas;
 	}
 
-	void add(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date)
+	void add(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date, char* body)
 	{
 
 		IncreaseArraySize();
-		array[size] = CollectionElem<int, Recording>(id, name, numberOfvisits, parentId, type, date);
+		array[size] = CollectionElem<int, Recording>(id, name, numberOfvisits, parentId, type, date, body);
 		size++;
 
 	}
@@ -239,14 +244,14 @@ public:
 		ofstream fout("LOL.txt");
 		for (int i = 0; i < size; i++)
 		{
-			fout << array[i].value.get_id() << ";" << array[i].value.get_type() << ";" << array[i].value.get_name() << ";" << array[i].value.get_numberOfvisits() << ";"<< array[i].value.get_parentId() << ";" << array[i].value.get_date() << '\0' << endl;
+			fout << array[i].value.get_id() << ";" << array[i].value.get_type() << ";" << array[i].value.get_name() << ";" << array[i].value.get_numberOfvisits() << ";"<< array[i].value.get_parentId() << ";" << array[i].value.get_date()<< ";" << array[i].value.get_body() << '\0' << endl;
 		}
 	}
 	void print()
 	{
 		for (int i = 0; i < size; i++)
 		{
-			cout << i << ". ";
+			cout << array[i].value.get_id() << ". ";
 			array[i].print();
 		}
 	}
@@ -329,6 +334,7 @@ public:
 				char* numberOfvisits = new char[10];
 				char* date = new char[20];
 				char* id = new char[5];
+				char* body = new char[256];
 				if (strcmp(buffer, "") != 0)
 				{
 					char* temp = new char[80];
@@ -382,15 +388,24 @@ public:
 							{
 								parentId = new char[strlen(temp) + 1];
 								parentId = copyOfstrings(temp);
+								flag = 5;
+								tempIndex = 0;
+								continue;
+							}
+							if (flag == 5)
+							{
+								
+								date = new char[strlen(temp) + 1];
+								date = copyOfstrings(temp);
 								tempIndex = 0;
 								continue;
 							}
 						}
 						if (buffer[i] == '\0')
 						{
-							date = new char[strlen(temp) + 1];
-							date = copyOfstrings(temp);
-							add(atoi(id), name, atoi(numberOfvisits), atoi(parentId), type, date);
+							body = new char[strlen(temp) + 1];
+							body = copyOfstrings(temp);
+							add(atoi(id), name, atoi(numberOfvisits), atoi(parentId), type, date, body);
 							tempIndex = 0;
 							flag = 0;
 							break;
@@ -405,6 +420,7 @@ public:
 
 		return false;
 	}
+
 };
 int main()
 {
@@ -412,6 +428,7 @@ int main()
 	setlocale(0, "");
 	FileSystem *fileSystem = new FileSystem();
 	FileSystem fs = *fileSystem;
+	FileSystem *mas = new FileSystem[100];
 	DateTime *dt = new DateTime;
 	SYSTEMTIME st;
 	bool result = fs.load();
@@ -421,17 +438,20 @@ int main()
 		char* name;
 		name = copyOfstrings("R:");
 		GetSystemTime(&st);
-		fs.add(0, name, 0, -1, copyOfstrings("d"), dt->dateToString(st));
+		fs.add(0, name, 0, -1, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
 		fs.save();
 	}
 
 	int choose;
+	int choose1;
 	while (1)
 	{
 		char *name = new char[256];
 		char *road = new char[256];
 		int parentId = 0;
-		cout << "1 - файл" << endl << "2 - папка" << endl <<"3 - вывести"<<endl<< "4 - сохранить и выйти" << endl;
+		char* body = new char[256];
+		char* test = new char[256];
+		cout << "1 - файл" << endl << "2 - папка" << endl << "3 - открыть" << endl << "4 - вывести" << endl << "5 - выйти" << endl;
 		cin >> choose;
 		switch (choose)
 		{
@@ -443,7 +463,7 @@ int main()
 			cout << "Введите имя файла" << endl;
 			cin >> name;
 			GetSystemTime(&st);
-			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st));
+			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st), copyOfstrings("NULL"));
 			fs.save();
 			break;
 		case 2:
@@ -453,14 +473,42 @@ int main()
 			cout << "Введите имя папки" << endl;
 			cin >> name;
 			GetSystemTime(&st);
-			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st));
+			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
 			fs.save();
 			break;
 		case 3:
-			fs.print();
+			cout << "Введите путь: ";
+			cin >> road;
+			parentId = fs.searchId(road, fs);
+			if (!strcmp(fs.searchById(parentId, fs).value.get_type(), "d"))
+			{
+				mas = fs.getArrayChilds(parentId, fs);
+				mas->print();
+			}
+			else
+			{
+				cout << fs.searchById(parentId, fs).value.get_body() << endl;
+
+				cout << "Отредактировать содержимое?" << endl << "1 - Да" << endl << "2 - Нет" << endl;
+				cin >> choose1;
+				switch (choose1)
+				{
+				case 1:
+					cin >> body;
+					fs.searchById(parentId, fs).value.set_body(body);
+					break;
+				case 2:
+					fs.save();
+					break;
+				}
+			}
 			break;
 		case 4:
+			fs.print();
+			break;
+		case 5:
 			return 0;
+
 		}
 		
 	}
