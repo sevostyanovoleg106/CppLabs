@@ -97,7 +97,7 @@ public:
 		time = STRCAT(time, monthStr);
 		time = STRCAT(time, ".");
 		time = STRCAT(time, dayStr);
-		time = STRCAT(time, " ");
+		time = STRCAT(time, "_");
 		time = STRCAT(time, hourStr);
 		time = STRCAT(time, ":");
 		time = STRCAT(time, minuteStr);
@@ -174,7 +174,7 @@ public:
 	void set_value(TValue value) { this->value = value; }
 	void print()
 	{
-		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() << "\t" << value.get_parentId() << "\t" << value.get_date() << "\t" << value.get_body() << endl;
+		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() <<  "\t\t\t" << value.get_date() << endl;
 	}
 };
 class FileSystem
@@ -208,6 +208,19 @@ public:
 		for (int i = 0; i < size; i++)
 			newArray[i] = array[i];
 		array = newArray;
+	}
+	void DecreaseArraySize()
+	{
+		CollectionElem<int, Recording>* newArray = new CollectionElem<int, Recording>[size - 1];
+		for (int i = 0; i < size -1 ;i++)
+			newArray[i] = array[i];
+		array = newArray;
+	}
+	void Swap(int first, int second)
+	{
+		CollectionElem<int, Recording> temp = array[first];
+		array[first] = array[second];
+		array[second] = temp;
 	}
 	CollectionElem<int, Recording>* get_array()
 	{
@@ -266,7 +279,7 @@ public:
 	}
 	void save()
 	{
-		ofstream fout("LOL.txt");
+		ofstream fout("Base.txt");
 		for (int i = 0; i < size; i++)
 		{
 			fout << array[i].get_value().get_id() << ";"
@@ -281,6 +294,7 @@ public:
 	}
 	void print()
 	{
+		cout << "ID" << " " << "Тип" << "\t" << "Имя" << "\t" << "Кол-во просмотров" << "\t" << "Дата" << endl;
 		for (int i = 0; i < size; i++)
 		{
 			cout << array[i].get_value().get_id() << ". ";
@@ -351,7 +365,7 @@ public:
 	bool load()
 	{
 		clear();
-		ifstream fout("LOL.txt");
+		ifstream fout("Base.txt");
 		if (fout.is_open())
 		{
 			char* buffer = new char[256];
@@ -464,10 +478,21 @@ public:
 		}
 		return temp;
 	}
+	void Delete(int id)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (this->get_array()[i].get_value().get_id() == id )
+			{
+				Swap(i, size - 1);
+				DecreaseArraySize();
+				size--;
+			}
+		}
+	}
 };
 int main()
 {
-
 	setlocale(0, "");
 	FileSystem *fileSystem = new FileSystem();
 	FileSystem fs = *fileSystem;
@@ -479,11 +504,11 @@ int main()
 	bool result = fs.load();
 	if (!result)
 	{
-		ofstream fout("LOL.txt");
+		ofstream fout("Base.txt");
 		char* name;
 		name = copyOfstrings("R:");
 		GetSystemTime(&st);
-		rec = new Recording(0, name, 0, -1, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
+		rec = new Recording(0, name, 0, -1, copyOfstrings("d"), dt->dateToString(st), copyOfstrings(""));
 		fs.add(*rec);
 		fs.save();
 	}
@@ -495,8 +520,8 @@ int main()
 		char *road = new char[256];
 		int parentId = 0;
 		char* body = new char[256];
-		char* test = new char[256];
-		cout << "1 - файл" << endl << "2 - папка" << endl << "3 - открыть" << endl << "4 - вывести" << endl << "5 - определить файл с наибольшим кол-во просмотров" << endl << "6 - сохранить и выйти" << endl;
+		char* date = new char[256];
+		cout << "1 - файл" << endl << "2 - папка" << endl << "3 - открыть" << endl << "4 - вывести" << endl << "5 - определить файл с наибольшим кол-во просмотров" << endl << "6 - удалить" <<endl<< "7 - сохранить и выйти" << endl;
 		cin >> choose;
 		switch (choose)
 		{
@@ -508,7 +533,7 @@ int main()
 			cout << "Введите имя файла" << endl;
 			cin >> name;
 			GetSystemTime(&st);
-			rec = new Recording(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st), copyOfstrings("NULL"));
+			rec = new Recording(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st), copyOfstrings(""));
 			fs.add(*rec);
 			fs.save();
 			break;
@@ -519,7 +544,7 @@ int main()
 			cout << "Введите имя папки" << endl;
 			cin >> name;
 			GetSystemTime(&st);
-			rec = new Recording(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
+			rec = new Recording(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st), copyOfstrings(""));
 			fs.add(*rec);
 			fs.save();
 			break;
@@ -534,6 +559,7 @@ int main()
 			}
 			else
 			{
+				cout << "Содержимое файла: ";
 				cout << fs.searchById(parentId).get_value().get_body() << endl;
 
 				cout << "Отредактировать содержимое?" << endl << "1 - Да" << endl << "2 - Нет" << endl;
@@ -575,6 +601,30 @@ int main()
 			fs.MaxAttendance()->print();
 			break;
 		case 6:
+			cout << "Введите путь к папке, в которой хотите удалить все элементы раньше заданной даты" << endl;
+			cin >> road;
+			parentId = fs.searchId(road, fs);
+			if (!strcmp(fs.searchById(parentId).get_value().get_type(), "d"))
+			{
+				mas = fs.getArrayChilds(parentId, fs);
+				cout << "Введите дату в формате гггг.мм.дд_чч:мм:сс" << endl;
+				cin >> date;
+				choose1 = mas->get_size();
+				for (int i = 0; i < choose1; i++)
+				{
+					choose = strcmp(mas->get_array()[i].get_value().get_date(), date);
+					if (choose < 0)
+					{
+						fs.Delete(mas->get_array()[i].get_value().get_id());
+						choose1--;
+					}
+						
+				}
+			}
+			fs.save();
+			break;
+		case 7:
+			fs.save();
 			return 0;
 		}
 
