@@ -1,5 +1,5 @@
 /*
-Написать программу, моделирующую управление каталогом в файловой системе. 
+Написать программу, моделирующую управление каталогом в файловой системе.
 Для каждого файла в каталоге содержатся следующие сведения: имя файла, дата создания, количество обращений к файлу.
 Программа должна обеспечивать:
 
@@ -9,11 +9,11 @@
 
 удаление файлов, дата создания которых раньше заданной;-
 
-просмотр и редактирование файла;-
+просмотр и редактирование файла;+
 
-выборку файла с наибольшим количеством просмотров;-
+выборку файла с наибольшим количеством просмотров;+
 
-Выбор моделируемой функции должен осуществляться с помощью меню. 
+Выбор моделируемой функции должен осуществляться с помощью меню.
 Для представления каталога использовать класс «коллекция ключ-значение».
 Хранить всю информацию (всю систему каталогов и файлов) в базе данных в виде текстового файла.
 */
@@ -128,12 +128,19 @@ public:
 		this->type = type;
 		this->body = body;
 	}
-	Recording() {}
-	void set_id(int id)
+	Recording(const Recording& CopyR)
 	{
-		this->id = id;
+		this->id = CopyR.id;
+		this->numberOfvisits = CopyR.numberOfvisits;
+		this->name = CopyR.name;
+		this->parentId = CopyR.parentId;
+		this->date = CopyR.date;
+		this->type = CopyR.type;
+		this->body = CopyR.body;
 	}
+	Recording() {}
 
+	void set_id(int id) { this->id = id; }
 	int get_id() { return id; }
 	int get_numberOfvisits() { return numberOfvisits; }
 	char* get_name() { return  name; }
@@ -141,26 +148,33 @@ public:
 	char* get_date() { return date; }
 	char* get_type() { return type; }
 	char* get_body() { return body; }
-	void set_body(char* body) { this->body = body;}
+	void set_body(char* body) { this->body = body; }
 };
 template <class TKey, class TValue>
 class CollectionElem
 {
-public:
 	TKey key;
 	TValue value;
+public:
 
-	CollectionElem(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date, char* body)
+	CollectionElem(TKey key, TValue value)
 	{
-		value = Recording(id, name, numberOfvisits, parentId, type, date, body);
-		key = id;
+		this->value = value;
+		this->key = key;
 	}
-
+	CollectionElem(const CollectionElem& CopyCE)
+	{
+		this->value = CopyCE.value;
+		this->key = CopyCE.key;
+	}
 	CollectionElem() {}
-
+	TValue get_value() { return value; }
+	TKey get_key() { return key; }
+	void set_key(TKey key) { this->key = key; }
+	void set_value(TValue value) { this->value = value; }
 	void print()
 	{
-		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() <<"\t"<<value.get_parentId()<< "\t" << value.get_date() <<"\t"<<value.get_body()<< endl;
+		cout << value.get_type() << "\t" << value.get_name() << "\t" << value.get_numberOfvisits() << "\t" << value.get_parentId() << "\t" << value.get_date() << "\t" << value.get_body() << endl;
 	}
 };
 class FileSystem
@@ -173,6 +187,16 @@ public:
 	{
 		size = 0;
 		array = new CollectionElem<int, Recording>();
+	}
+	FileSystem(int size, CollectionElem<int, Recording> *array)
+	{
+		this->size = size;
+		this->array = array;
+	}
+	FileSystem(const FileSystem& CopyFS)
+	{
+		size = CopyFS.size;
+		array = CopyFS.array;
 	}
 	void set_size(int size)
 	{
@@ -194,21 +218,21 @@ public:
 		return size;
 	}
 
-	CollectionElem<int, Recording> searchById(int id, FileSystem &fs)
+	CollectionElem<int, Recording> searchById(int id)
 	{
-		for (int i = 0; i < fs.get_size(); i++)
+
+		for (int i = 0; i < this->get_size(); i++)
 		{
-			if (fs.array[i].value.get_id() == id)
-				return fs.array[i];
+			if (this->array[i].get_value().get_id() == id)
+				return this->array[i];
 		}
 	}
-
 	int searchIdByName(char* name, FileSystem &fs)
 	{
 		for (int i = 0; i < fs.get_size(); i++)
 		{
-			if (!strcmp(fs.array[i].value.get_name(), name))
-				return fs.array[i].value.get_id();
+			if (!strcmp(fs.array[i].get_value().get_name(), name))
+				return fs.array[i].get_value().get_id();
 		}
 	}
 
@@ -217,41 +241,49 @@ public:
 		FileSystem *mas = new FileSystem();
 		for (int i = 0; i < fs.get_size(); i++)
 		{
-			if (fs.array[i].value.get_parentId() == id)
+			if (fs.array[i].get_value().get_parentId() == id)
 			{
-				mas->add(fs.array[i].value.get_id(),
-					fs.array[i].value.get_name(),
-					fs.array[i].value.get_numberOfvisits(),
-					fs.array[i].value.get_parentId(),
-					fs.array[i].value.get_type(),
-					fs.array[i].value.get_date(),
-					fs.array[i].value.get_body());
+				Recording *rec = new Recording(
+					fs.array[i].get_value().get_id(),
+					fs.array[i].get_value().get_name(),
+					fs.array[i].get_value().get_numberOfvisits(),
+					fs.array[i].get_value().get_parentId(),
+					fs.array[i].get_value().get_type(),
+					fs.array[i].get_value().get_date(),
+					fs.array[i].get_value().get_body());
+
+				mas->add(*rec);
 			}
 		}
 		return mas;
 	}
 
-	void add(int id, char* name, unsigned int numberOfvisits, int parentId, char* type, char* date, char* body)
+	void add(Recording& rec)
 	{
-
 		IncreaseArraySize();
-		array[size] = CollectionElem<int, Recording>(id, name, numberOfvisits, parentId, type, date, body);
+		array[size] = CollectionElem<int, Recording>(rec.get_id(), rec);
 		size++;
-
 	}
 	void save()
 	{
 		ofstream fout("LOL.txt");
 		for (int i = 0; i < size; i++)
 		{
-			fout << array[i].value.get_id() << ";" << array[i].value.get_type() << ";" << array[i].value.get_name() << ";" << array[i].value.get_numberOfvisits() << ";"<< array[i].value.get_parentId() << ";" << array[i].value.get_date()<< ";" << array[i].value.get_body() << '\0' << endl;
+			fout << array[i].get_value().get_id() << ";"
+				<< array[i].get_value().get_type() << ";"
+				<< array[i].get_value().get_name() << ";"
+				<< array[i].get_value().get_numberOfvisits() << ";"
+				<< array[i].get_value().get_parentId() << ";"
+				<< array[i].get_value().get_date() << ";"
+				<< array[i].get_value().get_body() << '\0'
+				<< endl;
 		}
 	}
 	void print()
 	{
 		for (int i = 0; i < size; i++)
 		{
-			cout << array[i].value.get_id() << ". ";
+			cout << array[i].get_value().get_id() << ". ";
 			array[i].print();
 		}
 	}
@@ -265,7 +297,7 @@ public:
 	{
 
 		int count = 0;
-		for (int i = 0; i <= strlen(buffer) ; i++)
+		for (int i = 0; i <= strlen(buffer); i++)
 		{
 			if (buffer[i] == '\\' || buffer[i] == '\0')
 				count++;
@@ -275,10 +307,10 @@ public:
 		{
 			arr[g] = new char[256];
 		}
-		
+
 		int tempIndex = 0;
 		int i = 0;
-		for (int j = 0; j < count ; j++)
+		for (int j = 0; j < count; j++)
 		{
 			char*  temp = new char[256];
 			for (i; i < strlen(buffer) + 1; i++)
@@ -302,14 +334,14 @@ public:
 			return 0;
 		int id = searchIdByName(arr[0], fs);
 		FileSystem *childs = new FileSystem();
-		for (int f = 1; f < count ; f++)
+		for (int f = 1; f < count; f++)
 		{
 			childs = getArrayChilds(id, fs);
 			for (int j = 0; j < childs->get_size(); j++)
 			{
-				if (!strcmp(arr[f], childs->array[j].value.get_name()))
+				if (!strcmp(arr[f], childs->array[j].get_value().get_name()))
 				{
-					id = searchIdByName(childs->array[j].value.get_name(), *childs);
+					id = searchIdByName(childs->array[j].get_value().get_name(), *childs);
 				}
 			}
 		}
@@ -394,7 +426,7 @@ public:
 							}
 							if (flag == 5)
 							{
-								
+
 								date = new char[strlen(temp) + 1];
 								date = copyOfstrings(temp);
 								tempIndex = 0;
@@ -405,7 +437,8 @@ public:
 						{
 							body = new char[strlen(temp) + 1];
 							body = copyOfstrings(temp);
-							add(atoi(id), name, atoi(numberOfvisits), atoi(parentId), type, date, body);
+							Recording *rec = new Recording(atoi(id), name, atoi(numberOfvisits), atoi(parentId), type, date, body);
+							add(*rec);
 							tempIndex = 0;
 							flag = 0;
 							break;
@@ -421,6 +454,16 @@ public:
 		return false;
 	}
 
+	CollectionElem<int, Recording>* MaxAttendance()
+	{
+		CollectionElem<int, Recording> *temp = new CollectionElem<int, Recording>();
+		for (int i = 1; i < this->get_size() - 1; i++)
+		{
+			if (this->get_array()[i].get_value().get_numberOfvisits() > temp->get_value().get_numberOfvisits())
+				*temp = this->get_array()[i];
+		}
+		return temp;
+	}
 };
 int main()
 {
@@ -431,6 +474,8 @@ int main()
 	FileSystem *mas = new FileSystem[100];
 	DateTime *dt = new DateTime;
 	SYSTEMTIME st;
+	Recording *rec;
+	CollectionElem<int, Recording> *colll;
 	bool result = fs.load();
 	if (!result)
 	{
@@ -438,10 +483,10 @@ int main()
 		char* name;
 		name = copyOfstrings("R:");
 		GetSystemTime(&st);
-		fs.add(0, name, 0, -1, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
+		rec = new Recording(0, name, 0, -1, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
+		fs.add(*rec);
 		fs.save();
 	}
-
 	int choose;
 	int choose1;
 	while (1)
@@ -451,7 +496,7 @@ int main()
 		int parentId = 0;
 		char* body = new char[256];
 		char* test = new char[256];
-		cout << "1 - файл" << endl << "2 - папка" << endl << "3 - открыть" << endl << "4 - вывести" << endl << "5 - выйти" << endl;
+		cout << "1 - файл" << endl << "2 - папка" << endl << "3 - открыть" << endl << "4 - вывести" << endl << "5 - определить файл с наибольшим кол-во просмотров" << endl << "6 - сохранить и выйти" << endl;
 		cin >> choose;
 		switch (choose)
 		{
@@ -463,7 +508,8 @@ int main()
 			cout << "Введите имя файла" << endl;
 			cin >> name;
 			GetSystemTime(&st);
-			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st), copyOfstrings("NULL"));
+			rec = new Recording(fs.get_size(), name, 0, parentId, copyOfstrings("f"), dt->dateToString(st), copyOfstrings("NULL"));
+			fs.add(*rec);
 			fs.save();
 			break;
 		case 2:
@@ -473,21 +519,22 @@ int main()
 			cout << "Введите имя папки" << endl;
 			cin >> name;
 			GetSystemTime(&st);
-			fs.add(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
+			rec = new Recording(fs.get_size(), name, 0, parentId, copyOfstrings("d"), dt->dateToString(st), copyOfstrings("NULL"));
+			fs.add(*rec);
 			fs.save();
 			break;
 		case 3:
 			cout << "Введите путь: ";
 			cin >> road;
 			parentId = fs.searchId(road, fs);
-			if (!strcmp(fs.searchById(parentId, fs).value.get_type(), "d"))
+			if (!strcmp(fs.searchById(parentId).get_value().get_type(), "d"))
 			{
 				mas = fs.getArrayChilds(parentId, fs);
 				mas->print();
 			}
 			else
 			{
-				cout << fs.searchById(parentId, fs).value.get_body() << endl;
+				cout << fs.searchById(parentId).get_value().get_body() << endl;
 
 				cout << "Отредактировать содержимое?" << endl << "1 - Да" << endl << "2 - Нет" << endl;
 				cin >> choose1;
@@ -495,9 +542,27 @@ int main()
 				{
 				case 1:
 					cin >> body;
-					fs.searchById(parentId, fs).value.set_body(body);
+					rec = new Recording(
+						fs.searchById(parentId).get_value().get_id(),
+						fs.searchById(parentId).get_value().get_name(),
+						fs.searchById(parentId).get_value().get_numberOfvisits() + 1,
+						fs.searchById(parentId).get_value().get_parentId(),
+						fs.searchById(parentId).get_value().get_type(),
+						fs.searchById(parentId).get_value().get_date(),
+						body);
+					fs.get_array()[parentId].set_value(*rec);
+					fs.save();
 					break;
 				case 2:
+					rec = new Recording(
+						fs.searchById(parentId).get_value().get_id(),
+						fs.searchById(parentId).get_value().get_name(),
+						fs.searchById(parentId).get_value().get_numberOfvisits() + 1,
+						fs.searchById(parentId).get_value().get_parentId(),
+						fs.searchById(parentId).get_value().get_type(),
+						fs.searchById(parentId).get_value().get_date(),
+						fs.searchById(parentId).get_value().get_body());
+					fs.get_array()[parentId].set_value(*rec);
 					fs.save();
 					break;
 				}
@@ -507,10 +572,12 @@ int main()
 			fs.print();
 			break;
 		case 5:
+			fs.MaxAttendance()->print();
+			break;
+		case 6:
 			return 0;
-
 		}
-		
+
 	}
 
 	system("pause");
