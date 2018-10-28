@@ -66,27 +66,27 @@ class DateTime
 public:
 	char* dateToString(SYSTEMTIME st)
 	{
-		int day = st.wDay;
+		day = st.wDay;
 		char* dayStr = new char[64];
 		_itoa_s(day, dayStr, 64, 10);
 
-		int month = st.wMonth;
+		month = st.wMonth;
 		char* monthStr = new char[64];
 		_itoa_s(month, monthStr, 64, 10);
 
-		int year = st.wYear;
+		year = st.wYear;
 		char* yearStr = new char[64];
 		_itoa_s(year, yearStr, 64, 10);
 
-		int hour = st.wHour;
+		hour = st.wHour;
 		char* hourStr = new char[64];
 		_itoa_s(hour, hourStr, 64, 10);
 
-		int minute = st.wMinute;
+		minute = st.wMinute;
 		char* minuteStr = new char[64];
 		_itoa_s(minute, minuteStr, 64, 10);
 
-		int second = st.wSecond;
+		second = st.wSecond;
 		char* secondStr = new char[64];
 		_itoa_s(second, secondStr, 64, 10);
 
@@ -112,7 +112,6 @@ class Recording
 	int numberOfvisits = 0;
 	char* name;
 	int parentId;
-	//SYSTEMTIME st;
 	char* date;
 	char* type;
 	char* body;
@@ -173,11 +172,6 @@ class Collection
 			this->key = key;
 			this->value = value;
 		}
-		void set_key()
-		{
-
-		}
-
 	};
 
 	int sizeCollection = 0;
@@ -334,7 +328,7 @@ public:
 	void Delete(int id)
 	{
 		coll->Delete(id);
-		fileSystemSize--;
+		//fileSystemSize--;
 	}
 	void Save()
 	{
@@ -552,7 +546,12 @@ int main()
 	{
 		int choice;
 
-		cout << "1) Создать файл" << endl << "2) Создать папку" << endl << "3) Выбор файла с максимальной посещаемостью" << endl << "4) Вывести всю файловую систему" << endl << "5) Открыть" << endl << "6) Удалить" << endl << "7) Сохранить и выйти" << endl;
+		cout << "1) Создать файл" << endl
+			<< "2) Создать папку" << endl
+			<< "3) Выбор файла с максимальной посещаемостью" << endl
+			<< "4) Вывести всю файловую систему" << endl
+			<< "5) Открыть" << endl << "6) Удалить" << endl
+			<< "7) Сохранить и выйти" << endl;
 		cin >> choice;
 		char* name = new char[256];
 		char* road = new char[256];
