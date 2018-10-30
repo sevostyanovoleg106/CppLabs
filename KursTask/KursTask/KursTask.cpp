@@ -34,7 +34,7 @@ char* CopyOfstrings(const char* buffer)
 	{
 		string[i] = buffer[i];
 	}
-	string[i + 1] = '\0';
+	string[i + 1] = '\0'; 
 	return string;
 }
 char* STRCAT(char* first_string, const char* second_string)
