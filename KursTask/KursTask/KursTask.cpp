@@ -205,9 +205,13 @@ public:
 	{
 		return sizeCollection;
 	}
-	void Set_value(Tvalue value, int id)
+	void Set_value(Tvalue value, Tkey key)
 	{
-		array[id]->value = value;
+		for (int i = 0; i < sizeCollection; i++)
+		{
+			if (key == array[i]->key)
+				array[i]->value = value;
+		}
 	}
 	friend ostream& operator << (ostream& out, Collection inst)
 	{
@@ -229,7 +233,7 @@ public:
 		}
 		return in;
 	}
-	void Add(Tkey key, Tvalue value)
+	void Add(Tkey key, Tvalue value)e
 	{
 		IncreaseArraySize();
 		array[sizeCollection] = new CollectionElem(key, value);
@@ -576,7 +580,7 @@ int main()
 			cout << fs->MaxAttendance();
 			break;
 		case 4:
-			cout << "ID" << '\t' << "Тип" << '\t' << "Имя" << '\t' << "Дата" << '\t' << '\t' << '\t' << "Кол-во посещений" << endl;
+			cout << "ID" << '\t' << "Тип" << '\t' << "Имя" << '\t'<<'\t'<<'\t' << "Дата" << '\t' << '\t' << '\t' << "Кол-во посещений" << endl;
 			cout << fs->Get_Array() << endl;
 			break;
 		case 5:
@@ -653,4 +657,4 @@ int main()
 			return 0;
 		}
 	}
-}
+}	
